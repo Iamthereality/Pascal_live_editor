@@ -1,8 +1,9 @@
 class Api_service {
     api = 'https://api.jdoodle.com/v1/execute';
+    proxyurl = "https://cors-anywhere.herokuapp.com/";
     request = new XMLHttpRequest();
 
-    xhr = (script) => {
+    get_data = async (script) => {
         const program = {
             script : script,
             language: "pascal",
@@ -11,40 +12,53 @@ class Api_service {
             clientSecret: "ed29d54f758aaf42018355f1ae9b2be31a56be7d88390076ef0a67b7fea62522"
         };
         const data = JSON.stringify(program);
-        return new Promise((resolve, reject) => {
-            this.request.open('POST', `${this.api}`);
-            this.request.setRequestHeader('Content-type',
-                'application/json; charset=utf-8');
-            this.request.send(data);
-            this.request.addEventListener('readystatechange',  () => {
-                if (this.request.status >= 200 && this.request.status < 300) {
-                    resolve();
-                } else {
-                    reject();
-                }
-            });
-        })
+        const url = `${this.proxyurl}${this.api}`;
+        const params = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: data
+        };
+        const server_response = await fetch(url, params);
+        if (!server_response.ok) {
+            throw new Error(`Could not fetch ${this.api}, received ${server_response.status}`);
+        }
+        return await server_response.json();
     };
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    // import {default as Api_service} from "./api_service";
 
     window.editor = ace.edit("editor_field");
     const api = new Api_service();
+    const editor_field = document.querySelector('#editor_field');
+    const result_field = document.querySelector('#result_field');
 
     function getEditorValue() {
-        const editor_field = document.querySelector('#editor_field');
-        const result_field = document.querySelector('#result_field');
+        const spinner = document.querySelector('.loading_spinner');
+        const pre = result_field.querySelector('pre');
         const compile_button = document.querySelector('button');
         compile_button.addEventListener('click', function (event) {
             event.preventDefault();
-            api.xhr(editor.getValue())
+            spinner.classList.remove('hide');
+            pre.innerHTML = '';
+            api.get_data(editor.getValue())
                 .then((response) => {
-                    console.log(response);
+                    spinner.classList.add('hide');
+                    editor_field.classList.remove('full');
+                    result_field.classList.remove('hide');
+                    editor.resize();
+                    pre.innerHTML = response.output;
                 });
-            editor_field.classList.remove('full');
-            result_field.classList.remove('hide');
+        });
+    }
+
+    function close_result() {
+        const close = document.querySelector('#close_result');
+        close.addEventListener('click', function () {
+            editor_field.classList.add('full');
+            result_field.classList.add('hide');
             editor.resize();
         });
     }
@@ -52,24 +66,14 @@ document.addEventListener('DOMContentLoaded', function () {
     function setupEditor() {
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/pascal");
-        editor.setValue(`program Greetings;
-const
-message = ' Welcome to the world of Pascal ';
+        editor.setValue(`program Hello_World;
 
-type
-name = string;
 var
-firstname, surname: name;
+message : string;
 
 begin
-   writeln('Please enter your first name: ');
-   readln(firstname);
-   
-   writeln('Please enter your surname: ');
-   readln(surname);
-   
-   writeln;
-   writeln(message, ' ', firstname, ' ', surname);
+   message := 'Hello, World!';
+   writeln(message);
 end.`,1);
 
         editor.getSession().setUseWrapMode(true);
@@ -88,4 +92,5 @@ end.`,1);
     }
 
     setupEditor();
+    close_result();
 });

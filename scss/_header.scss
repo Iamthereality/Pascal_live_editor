@@ -1,0 +1,73 @@
+.header {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #49483E;
+
+    .top {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+
+        h1 {
+            text-align: center;
+            color: #F92672;
+            margin: 30px 0 0 0;
+        }
+
+        .separate_line {
+            margin: 10px 0;
+            width: 100%;
+            height: 1px;
+            background-color: #8F908A;
+        }
+    }
+
+    .bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
+        button {
+            margin-bottom: 30px;
+            width: 100%;
+            height: 35px;
+            background-color: #F92672;
+            border: none;
+            outline: none;
+            padding: 0;
+            color: #49483E;
+            font: 16px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+
+            &:hover {
+                cursor: pointer;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+            }
+        }
+
+        .copyright {
+            margin-bottom: 30px;
+            text-align: center;
+            color: #8F908A;
+            font: 16px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+
+            a {
+                text-decoration: none;
+                color: #8F908A;
+
+                &:hover, &:active {
+                    text-decoration: none;
+                    color: #8F908A;
+                }
+            }
+        }
+    }
+}

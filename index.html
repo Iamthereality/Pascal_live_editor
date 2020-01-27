@@ -12,9 +12,26 @@
     <div class="header">
         <div class="top">
             <h1>Pascal Live Editor</h1>
+
             <div class="separate_line"></div>
         </div>
         <div class="bottom">
+            <div class="loading_spinner hide">
+                <div class="spinner">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
             <button>Compile</button>
             <div class="copyright">© Nick Lysenko 2020
                 <a href="mailto:iamthereality@yandex.ru">iamthereality@yandex.ru</a>
@@ -23,10 +40,12 @@
     </div>
     <div class="content">
         <idv class="full" id="editor_field"></idv>
-        <div class="hide" id="result_field"></div>
+        <div class="hide" id="result_field">
+            <img src="img/close.svg" alt="close" id="close_result">
+            <pre></pre>
+        </div>
     </div>
 
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.7/ace.js"></script>-->
     <script src="js/src/ace.js"></script>
     <script src="js/index.js"></script>
 </body>

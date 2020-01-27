@@ -44,11 +44,12 @@
             border: none;
             outline: none;
             padding: 0;
-            color: #49483E;
+            color: #F8F8F2;
             font: 16px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+            transition: all 0.2s;
+            cursor: pointer;
 
             &:hover {
-                cursor: pointer;
                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
             }
         }
